@@ -1,0 +1,84 @@
+# ============================================================
+# Prospera Generation Layer — Machine Validation Rules
+# Document Type: Canonical CI Validation Rules
+# Layer: Prospera Generation Layer
+# Status: Canonical (Active)
+# Version: v0.1.0
+# Parent Constraint: Prospera Execution Layer v1.0.0
+# Owner: Prospera Architecture Group
+# Last Updated: 2026-01-07
+# Scope: Schema, example, and adapter contract enforcement
+# ============================================================
+
+validation:
+  mode: strict
+  fail_fast: true
+
+schemas:
+  base_path: schemas
+  required:
+    - generation_task.schema.json
+    - generation_result.schema.json
+    - generation_failure.enum.json
+
+schema_rules:
+  enforce_additional_properties: false
+  require_explicit_required_fields: true
+  forbid_implicit_defaults: true
+
+examples:
+  base_path: examples
+
+  generation_task:
+    file: generation_task.valid.json
+    must_validate_against:
+      - schemas/generation_task.schema.json
+
+  generation_result_success:
+    file: generation_result.success.json
+    must_validate_against:
+      - schemas/generation_result.schema.json
+    required_conditions:
+      - status_equals: SUCCESS
+      - must_include: payload
+      - must_include: metadata
+      - must_not_include: failure_code
+
+  generation_result_failure:
+    file: generation_result.failure.json
+    must_validate_against:
+      - schemas/generation_result.schema.json
+      - schemas/generation_failure.enum.json
+    required_conditions:
+      - status_equals: FAILURE
+      - must_include: failure_code
+      - must_include: metadata
+      - must_not_include: payload
+
+adapter_contract:
+  base_path: examples/adapter
+
+  rejection_examples:
+    - execution_rejected.unschema.json
+
+  must_validate_against:
+    - schemas/adapter_rejection.schema.json
+
+enforcement:
+  on_schema_change:
+    require_example_validation: true
+    require_adapter_validation: true
+
+  on_example_change:
+    require_schema_validation: true
+
+  on_adapter_change:
+    require_schema_validation: true
+    forbid_payload_mutation: true
+
+ci_behavior:
+  exit_code_on_failure: 1
+  log_level: error
+  output_format: machine-readable
+
+# End of Document
