@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prospera.dev/schemas/generation_task.schema.json",
+  "title": "Prospera Generation Task",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": [
+    "task_id",
+    "task_type",
+    "intent_reference",
+    "inputs",
+    "constraints",
+    "expected_output"
+  ],
+
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Globally unique identifier for this generation task."
+    },
+
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "proposal_generation",
+        "option_enumeration",
+        "structured_draft",
+        "analysis_construction"
+      ],
+      "description": "Declared generation intent. Must be explicit and non-ambiguous."
+    },
+
+    "intent_reference": {
+      "type": "string",
+      "description": "External reference to upstream intent. Generation may not modify or reinterpret this."
+    },
+
+    "inputs": {
+      "type": "object",
+      "description": "Explicit inputs provided to the generation process.",
+      "additionalProperties": true
+    },
+
+    "constraints": {
+      "type": "object",
+      "description": "Hard constraints inherited from Execution Layer and upstream governance.",
+      "required": ["non_autonomous", "deterministic"],
+      "properties": {
+        "non_autonomous": {
+          "type": "boolean",
+          "const": true,
+          "description": "Must always be true. Enforces EP-05 non-autonomous constraint."
+        },
+        "deterministic": {
+          "type": "boolean",
+          "description": "Indicates whether deterministic output is required."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "expected_output": {
+      "type": "object",
+      "description": "Declared structure of the generation output.",
+      "required": ["format", "schema_compliant"],
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "Declared output format (e.g. json, markdown, table)."
+        },
+        "schema_compliant": {
+          "type": "boolean",
+          "const": true,
+          "description": "Output must be schema-validatable before execution."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
