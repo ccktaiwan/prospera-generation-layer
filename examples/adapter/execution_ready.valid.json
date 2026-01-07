@@ -1,0 +1,17 @@
+{
+  "execution_status": "EXECUTION_READY",
+  "execution_payload": {
+    "task_id": "task-001",
+    "action": "RUN_PIPELINE",
+    "parameters": {
+      "input": "dataset_A",
+      "mode": "safe"
+    }
+  },
+  "metadata": {
+    "adapter_version": "0.1.0",
+    "generation_schema_version": "0.1.0",
+    "execution_schema_version": "1.0.0",
+    "timestamp": "2026-01-07T10:30:00Z"
+  }
+}
