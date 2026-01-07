@@ -1,0 +1,17 @@
+{
+  "task_id": "task-001",
+  "task_type": "proposal_generation",
+  "intent_reference": "INTENT-REF-2026-01",
+  "inputs": {
+    "domain": "example",
+    "objective": "demonstrate a valid generation task fixture"
+  },
+  "constraints": {
+    "non_autonomous": true,
+    "deterministic": true
+  },
+  "expected_output": {
+    "format": "json",
+    "schema_compliant": true
+  }
+}
