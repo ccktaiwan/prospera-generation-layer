@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prospera.dev/schemas/generation_failure.enum.json",
+  "title": "Prospera Generation Failure Codes",
+  "type": "string",
+  "description": "Canonical failure and rejection codes for the Prospera Generation Layer.",
+
+  "enum": [
+    "INVALID_TASK_SCHEMA",
+    "MISSING_REQUIRED_INPUT",
+    "AMBIGUOUS_INTENT_REFERENCE",
+    "CONSTRAINT_VIOLATION",
+    "NON_AUTONOMOUS_BREACH",
+    "NON_DETERMINISTIC_OUTPUT",
+    "UNSCHEMA_COMPLIANT_OUTPUT",
+    "UNSAFE_FOR_EXECUTION",
+    "INTERNAL_GENERATION_ERROR"
+  ]
+}
