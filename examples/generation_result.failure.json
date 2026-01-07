@@ -1,0 +1,14 @@
+{
+  "status": "FAILURE",
+  "generation_result": {
+    "error": {
+      "code": "UNSCHEMA_COMPLIANT",
+      "message": "Generated output does not conform to the required schema."
+    }
+  },
+  "metadata": {
+    "generator_version": "0.1.0",
+    "schema_version": "0.1.0",
+    "timestamp": "2026-01-07T10:01:00Z"
+  }
+}
