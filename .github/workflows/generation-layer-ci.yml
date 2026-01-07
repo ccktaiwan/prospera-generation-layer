@@ -1,0 +1,75 @@
+name: Prospera Generation Layer CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+
+jobs:
+  validate-generation-layer:
+    name: Validate Generation Layer Contracts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install validation tools
+        run: |
+          npm install -g ajv-cli
+
+      - name: Validate schemas (Draft 2020-12)
+        run: |
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/generation_task.schema.json \
+            -s schemas/generation_result.schema.json \
+            -s schemas/generation_failure.enum.json \
+            -s schemas/execution_adapter_output.schema.json \
+            -s schemas/execution_adapter_rejection.enum.json
+
+      - name: Validate generation task example (PASS)
+        run: |
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/generation_task.schema.json \
+            -d examples/generation_task.valid.json
+
+      - name: Validate generation result examples (PASS)
+        run: |
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/generation_result.schema.json \
+            -d examples/generation_result.success.json
+
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/generation_result.schema.json \
+            -d examples/generation_result.failure.json
+
+      - name: Validate adapter examples (PASS)
+        run: |
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/execution_adapter_output.schema.json \
+            -d examples/adapter/execution_ready.valid.json
+
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/execution_adapter_output.schema.json \
+            -d examples/adapter/execution_rejected.unschema.json
+
+          ajv validate \
+            --spec=draft2020 \
+            -s schemas/execution_adapter_output.schema.json \
+            -d examples/adapter/execution_rejected.incomplete.json
+
+      - name: CI contract enforcement complete
+        run: |
+          echo "Generation Layer contract validation passed."
