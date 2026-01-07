@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prospera.dev/schemas/execution_adapter_output.schema.json",
+  "title": "Prospera Execution Adapter Output",
+  "description": "Canonical output contract emitted by the Prospera Execution Adapter.",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": ["execution_status", "metadata"],
+
+  "properties": {
+    "execution_status": {
+      "type": "string",
+      "enum": ["EXECUTION_READY", "EXECUTION_REJECTED"],
+      "description": "Final adapter decision for downstream execution."
+    },
+
+    "execution_payload": {
+      "type": "object",
+      "description": "Normalized, execution-ready payload. Present only when execution_status is EXECUTION_READY.",
+      "additionalProperties": true
+    },
+
+    "rejection_reason": {
+      "type": "string",
+      "description": "Canonical rejection reason. Present only when execution_status is EXECUTION_REJECTED."
+    },
+
+    "metadata": {
+      "type": "object",
+      "description": "Adapter metadata for audit, traceability, and version control.",
+      "required": [
+        "adapter_version",
+        "generation_schema_version",
+        "execution_schema_version",
+        "timestamp"
+      ],
+      "properties": {
+        "adapter_version": {
+          "type": "string",
+          "description": "Version of the execution adapter implementation."
+        },
+        "generation_schema_version": {
+          "type": "string",
+          "description": "Version of the generation schema validated by the adapter."
+        },
+        "execution_schema_version": {
+          "type": "string",
+          "description": "Version of the execution schema targeted by the adapter."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Adapter decision timestamp."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution_status": { "const": "EXECUTION_READY" }
+        }
+      },
+      "then": {
+        "required": ["execution_payload"],
+        "not": { "required": ["rejection_reason"] }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "execution_status": { "const": "EXECUTION_REJECTED" }
+        }
+      },
+      "then": {
+        "required": ["rejection_reason"],
+        "not": { "required": ["execution_payload"] }
+      }
+    }
+  ]
+}
