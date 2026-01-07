@@ -1,12 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://prospera.dev/schemas/generation_result.schema.json",
+
   "title": "Prospera Generation Result",
   "description": "Canonical result contract for the Prospera Generation Layer.",
+
   "type": "object",
   "additionalProperties": false,
 
-  "required": ["status"],
+  "required": ["status", "metadata"],
 
   "properties": {
     "status": {
@@ -17,24 +19,22 @@
 
     "payload": {
       "type": "object",
-      "description": "Execution-ready payload. Required when status is SUCCESS.",
+      "description": "Execution-ready payload. Present only when status is SUCCESS.",
       "additionalProperties": true
     },
 
     "failure_code": {
-      "type": "string",
-      "description": "Canonical failure code. Required when status is FAILURE.",
       "$ref": "generation_failure.enum.json"
     },
 
     "metadata": {
       "type": "object",
-      "description": "Generation metadata for audit and traceability.",
+      "description": "Generation metadata for auditability, traceability, and replay.",
       "required": ["generator_version", "schema_version", "timestamp"],
       "properties": {
         "generator_version": {
           "type": "string",
-          "description": "Version of the generator implementation."
+          "description": "Version of the generation implementation."
         },
         "schema_version": {
           "type": "string",
@@ -43,7 +43,7 @@
         "timestamp": {
           "type": "string",
           "format": "date-time",
-          "description": "Generation completion timestamp."
+          "description": "Generation completion timestamp (RFC 3339)."
         }
       },
       "additionalProperties": false
@@ -53,20 +53,28 @@
   "allOf": [
     {
       "if": {
-        "properties": { "status": { "const": "SUCCESS" } }
+        "properties": {
+          "status": { "const": "SUCCESS" }
+        }
       },
       "then": {
-        "required": ["payload", "metadata"],
-        "not": { "required": ["failure_code"] }
+        "required": ["payload"],
+        "not": {
+          "required": ["failure_code"]
+        }
       }
     },
     {
       "if": {
-        "properties": { "status": { "const": "FAILURE" } }
+        "properties": {
+          "status": { "const": "FAILURE" }
+        }
       },
       "then": {
-        "required": ["failure_code", "metadata"],
-        "not": { "required": ["payload"] }
+        "required": ["failure_code"],
+        "not": {
+          "required": ["payload"]
+        }
       }
     }
   ]
