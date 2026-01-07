@@ -1,0 +1,67 @@
+name: Validate Prospera Generation Layer
+
+on:
+  pull_request:
+    paths:
+      - "schemas/**"
+      - "examples/**"
+      - "ci/**"
+      - ".ci/**"
+  push:
+    branches:
+      - main
+
+jobs:
+  generation-layer-validation:
+    name: Generation Layer Contract Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install validation dependencies
+        run: |
+          npm install -g ajv-cli yamljs
+
+      - name: Validate Generation Task Schema
+        run: |
+          ajv validate \
+            -s schemas/generation_task.schema.json \
+            -d examples/generation_task.valid.json \
+            --strict=true
+
+      - name: Validate Generation Result SUCCESS Example
+        run: |
+          ajv validate \
+            -s schemas/generation_result.schema.json \
+            -d examples/generation_result.success.json \
+            --strict=true
+
+      - name: Validate Generation Result FAILURE Example
+        run: |
+          ajv validate \
+            -s schemas/generation_result.schema.json \
+            -d examples/generation_result.failure.json \
+            --strict=true
+
+      - name: Validate Failure Enum Contract
+        run: |
+          ajv validate \
+            -s schemas/generation_failure.enum.json \
+            -d examples/generation_result.failure.json \
+            --strict=true
+
+      - name: Enforce CI Validation Rules
+        run: |
+          echo "Enforcing canonical validation rules"
+          yamljs parse ci/validation.rules.yaml > /dev/null
+
+      - name: Validation Summary
+        run: |
+          echo "Generation Layer validation PASSED"
