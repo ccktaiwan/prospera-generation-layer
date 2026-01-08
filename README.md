@@ -1,120 +1,67 @@
-# Prospera Generation Layer
+Prospera Generation Layer
+Canonical Engineering Definition
 
-Document Type: Canonical Engineering Definition  
-Layer: Prospera Generation Layer  
-Status: Canonical (Active)  
-Version: v0.1.0  
-Parent Constraint: Prospera Execution Layer v1.0.0  
-Last Updated: 2026-01-07  
+Document Type: Canonical Engineering Definition
+Layer: Prospera Generation Layer
+Status: Canonical (Active)
+Version: v0.1.0
+Parent Constraint: Prospera Execution Layer v1.0.0
+Last Updated: 2026-01-07
 
----
+Purpose
 
-## 1. Purpose
+The Prospera Generation Layer defines the governed generation model used to produce candidate outputs for downstream execution.
 
-The Prospera Generation Layer defines the structured generation model
-used to produce candidate outputs for execution.
+This layer is responsible solely for structured content construction, option generation, and schema-compliant proposal formation. It does not perform execution, does not make decisions, and does not authorize actions.
 
-This layer is responsible for content construction, option generation,
-and structured proposal formation — but NOT execution, decision-making,
-or authorization.
+All generation behavior is strictly constrained by the Prospera Execution Layer v1.0.0. No generation output may exist outside execution-layer rules.
 
-All generation behavior MUST comply with the constraints imposed by the
-Prospera Execution Layer v1.0.0.
+Role Within the Prospera System
 
----
+The Generation Layer operates as a subordinate engineering layer between upstream intent and governance context and downstream execution and runtime enforcement.
 
-## 2. Role in the Prospera Architecture
+Its sole function is to produce well-formed, execution-safe, and schema-validatable artifacts that may be considered for execution. The Generation Layer does not own outcomes and has no authority over state changes.
 
-The Generation Layer operates strictly between:
+Scope and Constraints
 
-- Upstream intent and governance layers
-- Downstream execution and runtime layers
+The Generation Layer may generate structured task proposals, populate schema-defined fields, produce multiple candidate outputs, and attach confidence or rationale metadata where explicitly permitted.
 
-Its sole responsibility is to generate well-formed, schema-compliant,
-and execution-safe outputs.
+The Generation Layer must not execute tasks, initiate actions, modify intent or objectives, infer policy or authorization, bypass execution constraints, or resolve ambiguity through assumption.
 
-The Generation Layer does not own outcomes.
+Any ambiguity encountered during generation must be treated as generation failure.
 
----
+Normative Relationship to the Execution Layer
 
-## 3. Explicit Scope
+The Generation Layer is strictly subordinate to the Prospera Execution Layer.
 
-The Generation Layer MAY:
+All generation outputs must be executable under Execution Layer rules. All artifacts must be schema-validatable. Any output that cannot be safely executed under execution constraints must be rejected.
 
-- Generate structured task proposals
-- Populate schema-defined fields
-- Produce multiple candidate outputs
-- Attach confidence or rationale metadata
+Non-autonomous constraints defined in Execution Policy EP-05 apply fully and without exception.
 
-The Generation Layer MUST NOT:
+Determinism and Stability Requirements
 
-- Execute tasks
-- Initiate actions
-- Modify intent or objectives
-- Bypass execution constraints
-- Infer policy or authorization
+Although generation mechanisms may involve probabilistic methods, the Generation Layer must produce reproducible outputs under identical inputs.
 
----
+Any non-determinism must be explicitly declared. Stylistic variance, conversational optimization, or creative deviation is prohibited. Structural correctness and execution safety take absolute priority.
 
-## 4. Relationship to Execution Layer (Normative)
+Downstream Artifacts
 
-The Generation Layer is a strict subordinate of the Execution Layer.
-
-The following rules are mandatory:
-
-- All generation outputs MUST be executable under Execution Layer rules
-- All generation artifacts MUST be schema-validatable
-- All ambiguity MUST be resolved as generation failure, not assumption
-- Non-autonomous constraints defined in EP-05 apply fully
-
-Any generation output that cannot be safely executed MUST be rejected.
-
----
-
-## 5. Determinism and Stability Requirements
-
-Although generation may involve probabilistic methods, the system MUST:
-
-- Produce reproducible outputs under identical inputs
-- Declare non-determinism explicitly when present
-- Avoid stylistic or conversational variance
-- Prioritize structural correctness over creativity
-
----
-
-## 6. Downstream Artifacts (Planned)
-
-This repository will define, at minimum:
-
-- Generation task schemas
-- Output validation contracts
-- Failure and rejection enums
-- Generator interface definitions
+This repository defines, at minimum, generation task schemas, output validation contracts, failure and rejection enumerations, and generator interface definitions.
 
 No runtime execution logic is permitted in this layer.
 
----
+Versioning Policy
 
-## 7. Versioning Policy
+Minor version increments may introduce new schemas or interfaces without altering existing semantics.
 
-Minor versions may introduce new schemas or interfaces.
+Major version increments require explicit alignment review with the Prospera Execution Layer.
 
-Major versions require explicit alignment review with the
-Execution Layer.
+Backward-incompatible generation behavior is forbidden without a major version increment.
 
-Backward-incompatible generation behavior is forbidden without
-a major version increment.
+Canonical Status
 
----
+This document establishes the canonical definition of the Prospera Generation Layer.
 
-## 8. Canonical Status
-
-This document establishes the canonical definition of the
-Prospera Generation Layer.
-
-All subsequent artifacts in this repository MUST conform
-to the constraints defined herein.
-
----
+All artifacts, interfaces, and implementations within this repository must conform to the constraints defined herein.
 
 End of Document
