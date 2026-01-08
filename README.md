@@ -1,67 +1,125 @@
 Prospera Generation Layer
-Canonical Engineering Definition
+Canonical Generation Engine Specification (Reference Repository)
 
-Document Type: Canonical Engineering Definition
-Layer: Prospera Generation Layer
-Status: Canonical (Active)
+Status: Active
 Version: v0.1.0
-Parent Constraint: Prospera Execution Layer v1.0.0
-Last Updated: 2026-01-07
+Repository Role: Reference (Non-Authoritative)
+Canonical Authority: Prospera OS
+Last Updated: 2026-01-09
 
 Purpose
 
-The Prospera Generation Layer defines the governed generation model used to produce candidate outputs for downstream execution.
+This repository defines the canonical specification for generation engines used within Prospera OS.
 
-This layer is responsible solely for structured content construction, option generation, and schema-compliant proposal formation. It does not perform execution, does not make decisions, and does not authorize actions.
+It exists solely to describe how generation engines behave, what constraints they must obey, and what kinds of artifacts they are allowed to produce.
 
-All generation behavior is strictly constrained by the Prospera Execution Layer v1.0.0. No generation output may exist outside execution-layer rules.
+This repository does not define system layers, governance authority, execution rights, orchestration logic, or interface behavior.
 
-Role Within the Prospera System
+All such authority and architectural definitions are owned exclusively by Prospera OS.
 
-The Generation Layer operates as a subordinate engineering layer between upstream intent and governance context and downstream execution and runtime enforcement.
+System Positioning
 
-Its sole function is to produce well-formed, execution-safe, and schema-validatable artifacts that may be considered for execution. The Generation Layer does not own outcomes and has no authority over state changes.
+The Prospera Generation Layer is not a system layer.
 
-Scope and Constraints
+It is a reference specification for generation engines operating within:
 
-The Generation Layer may generate structured task proposals, populate schema-defined fields, produce multiple candidate outputs, and attach confidence or rationale metadata where explicitly permitted.
+Prospera OS
+Layer 3 — Engine Layer (Execution and Generation Engines)
 
-The Generation Layer must not execute tasks, initiate actions, modify intent or objectives, infer policy or authorization, bypass execution constraints, or resolve ambiguity through assumption.
+Generation engines specified here operate strictly as bounded execution resources under governance and system constraints.
 
-Any ambiguity encountered during generation must be treated as generation failure.
+They do not own outcomes.
 
-Normative Relationship to the Execution Layer
+They do not initiate actions.
 
-The Generation Layer is strictly subordinate to the Prospera Execution Layer.
+They do not authorize behavior.
 
-All generation outputs must be executable under Execution Layer rules. All artifacts must be schema-validatable. Any output that cannot be safely executed under execution constraints must be rejected.
+They do not modify intent, scope, or system state.
 
-Non-autonomous constraints defined in Execution Policy EP-05 apply fully and without exception.
+Canonical system architecture, layer definitions, and authority boundaries are defined in:
+
+https://github.com/ccktaiwan/prospera-os
+
+Authority Boundary
+
+This repository is non-authoritative.
+
+It MUST NOT:
+
+Define or reinterpret governance rules
+Define system architecture or layers
+Authorize execution or orchestration
+Define approval, escalation, or policy logic
+Claim system or kernel authority
+
+Any interpretation conflict is resolved exclusively by Prospera OS.
+
+Role of Generation Engines
+
+Generation engines operating under this specification are classified as Engineering Workers.
+
+Their role is limited to producing structured, schema-compliant candidate artifacts for downstream orchestration and delivery.
+
+Generation engines MAY:
+
+Produce structured task or content candidates
+Populate predefined schema fields
+Generate multiple candidate outputs
+Attach rationale or confidence metadata
+
+Generation engines MUST NOT:
+
+Execute tasks
+Initiate workflows
+Authorize actions
+Infer missing intent or policy
+Bypass execution or governance constraints
+
+All outputs are advisory engineering artifacts and require downstream validation.
+
+Relationship to Execution and Orchestration
+
+Generation engines are strictly subordinate to execution and orchestration mechanisms defined elsewhere.
+
+They operate only when invoked by authorized system processes.
+
+They do not coordinate other engines.
+
+They do not control execution order.
+
+They do not perform recovery or escalation logic.
+
+Generation engines produce artifacts only.
+
+All execution decisions are made outside this repository.
 
 Determinism and Stability Requirements
 
-Although generation mechanisms may involve probabilistic methods, the Generation Layer must produce reproducible outputs under identical inputs.
+Although generation may involve probabilistic methods, engines defined here MUST:
 
-Any non-determinism must be explicitly declared. Stylistic variance, conversational optimization, or creative deviation is prohibited. Structural correctness and execution safety take absolute priority.
+Produce reproducible outputs under identical inputs where technically feasible
+Explicitly declare non-determinism when present
+Prioritize structural correctness over stylistic variation
+Avoid conversational or persuasive output modes
 
-Downstream Artifacts
+Generation correctness is measured by schema validity and constraint adherence, not creativity.
 
-This repository defines, at minimum, generation task schemas, output validation contracts, failure and rejection enumerations, and generator interface definitions.
+Versioning and Compatibility
 
-No runtime execution logic is permitted in this layer.
+Minor versions may introduce new schemas, interfaces, or clarifications.
 
-Versioning Policy
+Major versions require explicit alignment review with Prospera OS.
 
-Minor version increments may introduce new schemas or interfaces without altering existing semantics.
+Backward-incompatible generation behavior is forbidden without a major version increment and documented governance approval.
 
-Major version increments require explicit alignment review with the Prospera Execution Layer.
+Canonical Reference Statement
 
-Backward-incompatible generation behavior is forbidden without a major version increment.
+This repository is authoritative only for generation engine behavior within its declared scope.
 
-Canonical Status
+It is not the authoritative source of truth for Prospera system architecture, governance, execution, or orchestration.
 
-This document establishes the canonical definition of the Prospera Generation Layer.
+For all authoritative definitions, refer to Prospera OS:
 
-All artifacts, interfaces, and implementations within this repository must conform to the constraints defined herein.
+https://github.com/ccktaiwan/prospera-os
 
 End of Document
